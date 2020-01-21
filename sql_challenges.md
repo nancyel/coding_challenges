@@ -61,3 +61,73 @@ SELECT DISTINCT CITY FROM STATION WHERE CITY REGEXP '^[aeiou]';
 SELECT DISTINCT CITY FROM STATION
     WHERE LOWER(SUBSTR(CITY, LENGTH(CITY), LENGTH(CITY))) IN ('a', 'e', 'i', 'o', 'u');
 ```
+
+
+6.
+**Prompt**: Query the list of CITY names from STATION which have vowels (i.e., a, e, i, o, and u) as both their first and last characters. Your result cannot contain duplicates.
+
+**Source**: https://www.hackerrank.com/challenges/weather-observation-station-8/problem
+
+```sql
+SELECT DISTINCT CITY FROM STATION
+    WHERE (CITY LIKE 'a%'
+    OR CITY LIKE 'e%'
+    OR CITY LIKE 'i%'
+    OR CITY LIKE 'o%'
+    OR CITY LIKE 'u%')
+    AND (CITY LIKE '%a'
+    OR CITY LIKE '%e'
+    OR CITY LIKE '%i'
+    OR CITY LIKE '%o'
+    OR CITY LIKE '%u');
+```
+
+
+7.
+**Prompt**: Query the list of CITY names from STATION that do not start with vowels. Your result cannot contain duplicates.
+
+**Source**: https://www.hackerrank.com/challenges/weather-observation-station-9/problem
+
+```sql
+SELECT DISTINCT CITY FROM STATION
+    WHERE NOT CITY RLIKE '^[aeiouAEIOU].*$';
+```
+> RLIKE: Returns true if the subject matches the specified pattern. Similar to LIKE, but RLIKE supports more complex matching conditions.
+> .* means "0 or more of any character". A "dot" indicates any character; * means "0 or more instances of the preceding regex token"
+
+
+
+8.
+**Prompt**: Query the list of CITY names from STATION that do not end with vowels. Your result cannot contain duplicates.
+
+**Source**: https://www.hackerrank.com/challenges/weather-observation-station-10/problem
+
+```sql
+SELECT DISTINCT CITY FROM STATION
+    WHERE NOT CITY RLIKE '[aeiou]$';
+```
+
+
+9.
+**Prompt**: Query the Name of any student in STUDENTS who scored higher than  Marks. Order your output by the last three characters of each name. If two or more students both have names ending in the same last three characters (i.e.: Bobby, Robby, etc.), secondary sort them by ascending ID.
+
+**Source**: https://www.hackerrank.com/challenges/more-than-75-marks/problem
+
+```sql
+SELECT NAME FROM STUDENTS WHERE MARKS > 75 ORDER BY SUBSTR(NAME, LENGTH(NAME)-2, 3), ID;
+```
+
+
+10.
+**Prompt**: Generate the following two result sets:
+
+- Query an alphabetically ordered list of all names in OCCUPATIONS, immediately followed by the first letter of each profession as a parenthetical (i.e.: enclosed in parentheses). For example: AnActorName(A), ADoctorName(D), AProfessorName(P), and ASingerName(S).
+- Query the number of occurrences of each occupation in OCCUPATIONS. Sort the occurrences in ascending order, and output them in the following format: `There are a total of [occupation_count] [occupation]s.` where [occupation_count] is the number of occurrences of an occupation in OCCUPATIONS and [occupation] is the lowercase occupation name. If more than one Occupation has the same [occupation_count], they should be ordered alphabetically.
+
+
+**Source**: https://www.hackerrank.com/challenges/the-pads/problem
+
+```sql
+SELECT CONCAT(NAME, '(', LEFT(OCCUPATION, 1), ')') FROM OCCUPATIONS ORDER BY NAME;
+SELECT CONCAT('There are a total of ', COUNT(OCCUPATION), ' ', LOWER(OCCUPATION), 's.') FROM OCCUPATIONS GROUP BY OCCUPATION ORDER BY COUNT(OCCUPATION), OCCUPATION;
+```
