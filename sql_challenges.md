@@ -175,3 +175,30 @@ SELECT h.hacker_id, h.name
     ORDER BY COUNT(*) DESC, hacker_id;
 ```
 > Join 3 tables based on matching conditions; filter rows by score = full score; further filter by count > 1; format ordering as specified
+
+
+14.
+**Prompt**: 
+
+**Source**:
+
+```sql
+```
+
+
+15.
+**Prompt**:
+
+**Source**:
+
+```sql
+```
+
+
+16.
+**Prompt**:
+
+**Source**:
+
+```sql
+```
