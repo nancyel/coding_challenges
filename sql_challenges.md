@@ -175,3 +175,29 @@ SELECT h.hacker_id, h.name
     ORDER BY COUNT(*) DESC, hacker_id;
 ```
 > Join 3 tables based on matching conditions; filter rows by score = full score; further filter by count > 1; format ordering as specified
+
+
+14.
+**Prompt**: Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. Output one of the following statements for each record in the table: Equilateral, Isosceles, Scalene, Not a Triangle.
+
+**Source**: https://www.hackerrank.com/challenges/what-type-of-triangle/problem
+
+```sql
+SELECT IF(A+B>C AND B+C>A AND C+A>B, IF(A=B AND B=C, 'Equilateral', IF(A=B OR B=C OR C=A, 'Isosceles', 'Scalene')), 'Not A Triangle') FROM TRIANGLES;
+```
+> Nested IF(condition, output if true, otherwise) statements
+
+
+15.
+**Prompt**: You are given a table, BST, containing two columns: N and P, where N represents the value of a node in Binary Tree, and P is the parent of N. Write a query to find the node type of Binary Tree ordered by the value of the node. Output one of the following for each node:
+
+Root: If node is root node.
+Leaf: If node is leaf node.
+Inner: If node is neither root nor leaf node.
+
+**Source**: https://www.hackerrank.com/challenges/binary-search-tree-1/problem
+
+```sql
+SELECT N, IF(P IS NULL, 'Root', IF(BST.N IN (SELECT P FROM BST), 'Inner', 'Leaf')) FROM BST ORDER BY N;
+```
+> Find root node first; then check if values in N appear in values in P. Note the syntax in second IF statement.
