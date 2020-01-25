@@ -201,3 +201,44 @@ Inner: If node is neither root nor leaf node.
 SELECT N, IF(P IS NULL, 'Root', IF(BST.N IN (SELECT P FROM BST), 'Inner', 'Leaf')) FROM BST ORDER BY N;
 ```
 > Find root node first; then check if values in N appear in values in P. Note the syntax in second IF statement.
+
+
+
+16.
+**Prompt**: Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table, but did not realize her keyboard's 0 key was broken until after completing the calculation. She wants your help finding the difference between her miscalculation (using salaries with any zeroes removed), and the actual average salary. Write a query calculating the amount of error (i.e.:  average monthly salaries), and round it up to the next integer.
+
+**Source**: https://www.hackerrank.com/challenges/the-blunder/problem
+
+```sql
+SELECT CEIL(AVG(Salary)-AVG(REPLACE(Salary, '0', ''))) FROM EMPLOYEES;
+```
+> REPLACE(amount, from, to)
+
+
+17.
+**Prompt**: Amber's conglomerate corporation just acquired some new companies. write a query to print the company_code, founder name, total number of lead managers, total number of senior managers, total number of managers, and total number of employees. Order your output by ascending company_code.
+
+**Source**: https://www.hackerrank.com/challenges/the-company/problem
+
+```sql
+SELECT c.company_code, c.founder, COUNT(DISTINCT lm.lead_manager_code), COUNT(DISTINCT sm.senior_manager_code), COUNT(DISTINCT m.manager_code), COUNT(DISTINCT e.employee_code) FROM Company c
+    JOIN Lead_Manager lm ON c.company_code = lm.company_code
+    JOIN Senior_Manager sm ON lm.lead_manager_code = sm.lead_manager_code
+    JOIN Manager m ON sm.senior_manager_code = m.senior_manager_code
+    JOIN Employee e ON m.manager_code = e.manager_code
+GROUP BY c.company_code, c.founder
+ORDER BY c.company_code;
+```
+
+18.
+**Prompt**: We define an employee's total earnings to be their monthly <salary * months> worked, and the maximum total earnings to be the maximum total earnings for any employee in the Employee table. Write a query to find the maximum total earnings for all employees as well as the total number of employees who have maximum total earnings. Then print these values as  space-separated integers.
+
+**Source**: https://www.hackerrank.com/challenges/earnings-of-employees/problem
+
+```sql
+SELECT salary*months as earnings, COUNT(*)
+    FROM Employee
+    GROUP BY earnings
+    ORDER BY earnings DESC
+    LIMIT 1;
+```
