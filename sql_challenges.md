@@ -274,6 +274,14 @@ SELECT ROUND((SQRT(POWER((MIN(LAT_N)-MAX(LAT_N)), 2) + POWER((MIN(LONG_W)-MAX(LO
 **Source**: https://www.hackerrank.com/challenges/weather-observation-station-20/problem
 
 ```sql
+SET @count := (SELECT COUNT(1) from STATION);
+SET @row_id := 0;
 
+SELECT ROUND(AVG(LAT_N), 4) AS median FROM (SELECT LAT_N FROM STATION ORDER BY LAT_N) AS LAT_N
+    WHERE (SELECT @row_id := @row_id + 1) BETWEEN @count / 2.0 AND @count / 2.0 + 1;
 ```
-> Sort the LAT_N column, using ORDER BY; Count total rows of the table; Attach an index to each row; Find median value by index.
+> Set two variables to count # of total rows and the first index value
+> Write a subquery (with an alias) that sorts LAT_N column in ascending order
+> Increment counter for every row using where clause
+> Find median value by averaging the two values (if row total = even) or the middle one (if row total = odd)
+> Round to 4 dec places
