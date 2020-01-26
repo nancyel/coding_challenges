@@ -280,8 +280,10 @@ SET @row_id := 0;
 SELECT ROUND(AVG(LAT_N), 4) AS median FROM (SELECT LAT_N FROM STATION ORDER BY LAT_N) AS LAT_N
     WHERE (SELECT @row_id := @row_id + 1) BETWEEN @count / 2.0 AND @count / 2.0 + 1;
 ```
-> Set two variables to count # of total rows and the first index value
-> Write a subquery (with an alias) that sorts LAT_N column in ascending order
-> Increment counter for every row using where clause
-> Find median value by averaging the two values (if row total = even) or the middle one (if row total = odd)
-> Round to 4 dec places
+<!--
+1. Set two variables to count # of total rows and the first index value
+2. Write a subquery (with an alias) that sorts LAT_N column in ascending order
+3. Increment counter for every row using where clause
+4. Find median value by averaging the two values (if row total = even) or the middle one (if row total = odd)
+5. Round to 4 dec places
+-->
