@@ -287,3 +287,30 @@ SELECT ROUND(AVG(LAT_N), 4) AS median FROM (SELECT LAT_N FROM STATION ORDER BY L
 4. Find median value by averaging the two values (if row total = even) or the middle one (if row total = odd)
 5. Round to 4 dec places
 -->
+
+
+22.
+**Prompt**: Julia asked her students to create some coding challenges. Write a query to print the hacker_id, name, and the total number of challenges created by each student. Sort your results by the total number of challenges in descending order. If more than one student created the same number of challenges, then sort the result by hacker_id. If more than one student created the same number of challenges and the count is less than the maximum number of challenges created, then exclude those students from the result.
+
+**Source**: https://www.hackerrank.com/challenges/challenges/problem
+
+```sql
+SELECT h.hacker_id, h.name, count(c.challenge_id) as challenges_created
+    FROM Hackers AS h JOIN Challenges AS c
+    ON h.hacker_id = c.hacker_id
+    GROUP BY h.hacker_id, h.name
+    HAVING challenges_created = (SELECT COUNT(c1.challenge_id) as c_max
+           FROM Challenges AS c1
+           GROUP BY c1.hacker_id
+           ORDER BY c_max DESC
+           LIMIT 1) OR
+
+    challenges_created NOT IN (SELECT COUNT(c2.challenge_id)
+                FROM Challenges AS c2
+                GROUP BY c2.hacker_id
+                HAVING c2.hacker_id != h.hacker_id
+               )
+
+    ORDER BY challenges_created DESC, h.hacker_id;
+```
+> Use HAVING clause to filter the challenges_created column by 2 criteria: either the value is the maximum # of total challenges, or the value is unique.
