@@ -314,3 +314,23 @@ SELECT h.hacker_id, h.name, count(c.challenge_id) as challenges_created
     ORDER BY challenges_created DESC, h.hacker_id;
 ```
 > Use HAVING clause to filter the challenges_created column by 2 criteria: either the value is the maximum # of total challenges, or the value is unique.
+
+
+23.
+**Prompt**: P(R) represents a pattern drawn by Julia in R rows. The following pattern represents P(5):
+```
+*
+* *
+* * *
+* * * *
+* * * * *
+```
+
+**Source**: https://www.hackerrank.com/challenges/draw-the-triangle-2/problem
+
+```sql
+SET @row := 0;
+SELECT REPEAT('* ', @row := @row + 1) FROM information_schema.tables WHERE @row < 20;
+```
+> DECLARE defines the variable type; SET initializes the variable
+> REPEAT(str, count)
