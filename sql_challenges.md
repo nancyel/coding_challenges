@@ -334,3 +334,43 @@ SELECT REPEAT('* ', @row := @row + 1) FROM information_schema.tables WHERE @row 
 ```
 > DECLARE defines the variable type; SET initializes the variable
 > REPEAT(str, count)
+
+
+24.
+**Prompt**: Given the input below from `some_table`, output only the top half of the rows. Notice the first number (X1) is equal to the second number (Y2) of the top row and bottom row.
+```
+X Y
+2 24
+4 22
+5 21
+6 20
+8 18
+9 17
+11 15
+15 11
+17 9
+18 8
+20 6
+21 5
+22 4
+24 2
+```
+
+**Option 1: prepare/execute statements**
+```sql
+SET @count = (SELECT COUNT(*)/2 FROM some_table);
+
+PREPARE q FROM 'SELECT * FROM some_table LIMIT ?';
+EXECUTE q USING @count;
+DEALLOCATE PREPARE q;
+```
+> LIMIT can't be dynamically set in a query.
+> PREPARE prepares a statement for execution
+> EXECUTE executes a prepared statement
+> DEALLOCATE PREPARE releases a prepared statement
+
+**Option 2: subquery**
+```sql
+SELECT * FROM some_table AS t1
+    WHERE EXISTS (SELECT * FROM some_table AS t2 WHERE t1.X < t2.X);
+```
